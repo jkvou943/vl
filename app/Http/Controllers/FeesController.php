@@ -428,8 +428,11 @@ class FeesController extends Controller
             $datas = $datas->where('sku', $request->input('sku'));
         }
 		
-		if($request->input('feedes')){
-            $datas = $datas->where('campaign_name','like','%'.$request->input('feedes').'%');
+		if($request->input('feedes1')){
+            $datas = $datas->where('campaign_name','like','%'.$request->input('feedes1').'%');
+        }
+		if($request->input('feedes2')){
+            $datas = $datas->where('ad_group','like','%'.$request->input('feedes2').'%');
         }
 		$iTotalRecords = $datas->count();
         $iDisplayLength = intval($_REQUEST['length']);

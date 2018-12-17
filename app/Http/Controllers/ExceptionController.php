@@ -180,7 +180,7 @@ class ExceptionController extends Controller
 								''
 							];
 						}
-						
+						$o_sap_seller_id = Asin::where('sellersku',array_get(explode('*',$customersList['order_sku']),0))->value('sap_seller_id');
 						if($sap_sku_info = Asin::where('sellersku',array_get($product,'seller_sku'))->first()){
 							$sap_sku_info = $sap_sku_info->toArray();
 						}else{
@@ -218,14 +218,14 @@ class ExceptionController extends Controller
 							$customersList['amazon_order_id'],
 							array_get($sap_sku_info,'sap_site_id'),
 							$sap_line_num,
-							array_get($product,'item_code'),
+							strtoupper(array_get($product,'item_code')),
 							array_get($product,'qty'),
-							array_get($sap_sku_info,'sap_warehouse_id'),
 							array_get($sap_sku_info,'sap_factory_id'),
+							array_get($sap_sku_info,'sap_warehouse_id'),
 							'',
 							'',
 							'',
-							array_get($sap_sku_info,'sap_seller_id'),
+							$o_sap_seller_id,
 							'',
 							''
 						];

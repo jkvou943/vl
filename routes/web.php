@@ -75,4 +75,5 @@ Route::Post('/fees/getdeal', 'FeesController@getdeal')->name('getdeal');
 Route::Post('/fees/getcoupon', 'FeesController@getcoupon')->name('getcoupon');
 Route::Post('/fees/getservice', 'FeesController@getservice')->name('getservice');
 Route::resource('mcforder', 'McforderController');
+Route::resource('autoprice', 'AutopriceController');
 Route::Post('/mcforder/get', 'McforderController@get')->name('getMcforder');

@@ -77,7 +77,7 @@ class PriceController extends Controller
 	
 	public function getStockAge(Request $request){
 		$saprfc = new \App\Classes\SapRfcRequest();
-		$res = $saprfc->getStockAge(['sku' => strtoupper($request->get('sku'))]);
-		die(round(intval(array_get($res,'1.SAGE',0))/30));
+		$res = $saprfc->getStockAge(['sku' => strtoupper($request->get('sku')),'site' => strtoupper($request->get('site'))]);
+		die(json_encode((array_get($res,'1',[]))));
 	}
 }

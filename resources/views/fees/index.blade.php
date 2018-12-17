@@ -1027,13 +1027,21 @@
 										</select>
 										
 									</td>
-									<td colspan="2">
+									<td >
 									
-										<input type="text" class="form-control form-filter input-sm" name="feedes">
+										<input type="text" class="form-control form-filter input-sm" name="feedes1">
 										
 										
 										
 									</td>
+									<td >
+									
+										<input type="text" class="form-control form-filter input-sm" name="feedes2">
+										
+										
+										
+									</td>
+									
 									<td colspan="3"></td>
 									<td >
 									<select name="status" class="form-control form-filter input-sm">
@@ -1171,7 +1179,8 @@
 						
 									grid.setAjaxParam("date_from", $("input[name='date_from']").val());
 									grid.setAjaxParam("date_to", $("input[name='date_to']").val());
-									grid.setAjaxParam("feedes", $("input[name='feedes']").val());
+									grid.setAjaxParam("feedes1", $("input[name='feedes1']").val());
+									grid.setAjaxParam("feedes2", $("input[name='feedes2']").val());
 									grid.setAjaxParam("sellerid", $("select[name='sellerid']").val());
 									grid.setAjaxParam("bgbu", $("select[name='bgbu']").val());
 									grid.setAjaxParam("user_id", $("select[name='user_id']").val());

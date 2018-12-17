@@ -1,7 +1,9 @@
 /node_modules
+/public
 /public/hot
 /public/storage
 /public/uploads/ueditor
+/storage
 /storage/*.key
 /vendor
 /.idea

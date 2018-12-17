@@ -98,7 +98,8 @@ class GetAsin extends Command
 				'sap_store_id' => trim(array_get($asin,'KUNNR','')),
 				'sap_warehouse_id' => trim(array_get($asin,'LGORT','')),
 				'sap_factory_id' => trim(array_get($asin,'WERKS','')),
-				'sap_shipment_id' => trim(array_get($asin,'SDABW',''))
+				'sap_shipment_id' => trim(array_get($asin,'SDABW','')),
+				'asin_last_update_date'=> date('Y-m-d H:i:s')
 			]);
 			
 			if( array_get($asin,'ZSTATUS')=='A' || array_get($asin,'ZSTATUS')=='B'){

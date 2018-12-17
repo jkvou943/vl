@@ -494,6 +494,14 @@
                             <?php if($action=='price') echo '<span class="selected"></span>';?>
                         </a>
                     </li>
+					
+					<li class="nav-item <?php if($action=='autoprice') echo 'active';?>">
+                        <a href="{{ url('autoprice') }}" class="nav-link nav-toggle">
+                            <i class="fa fa-area-chart"></i>
+                            <span class="title">Automatic Price Adjustment</span>
+                            <?php if($action=='autoprice') echo '<span class="selected"></span>';?>
+                        </a>
+                    </li>
 
 
 

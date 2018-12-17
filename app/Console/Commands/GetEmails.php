@@ -86,66 +86,14 @@ class GetEmails extends Command
 		
 		
 	$mailbox = new PhpImap\Mailbox('{'.$this->runAccount['imap_host'].':'.$this->runAccount['imap_port'].'/imap/'.$this->runAccount['imap_ssl'].'}INBOX', $this->runAccount['email'], $this->runAccount['password'], $attDir,$imap_charset);
-		/*/测试
-		if($this->runAccount['email'] == 'dv005@foxmail.com'){
-			$mailbox->setServerEncoding('UTF-8');
-			$mail = $mailbox->getMail(9931);
-			if($mail){
-				$reply_to = current(array_keys($mail->replyTo));
-				$insert_data['mail_address'] = $this->runAccount['email'];
-				$insert_data['mail_id'] = $mail->id;
-				$insert_data['from_name'] = $mail->fromName;
-				$insert_data['from_address'] = ($reply_to)?$reply_to:$mail->fromAddress;
-				
-				$insert_data['to_address'] = $this->runAccount['account_email'];
-				$insert_data['subject'] = $mail->subject;
-				$insert_data['text_html'] = $mail->textHtml;
-				$insert_data['text_plain'] = $mail->textPlain;
-				$insert_data['date'] = $mail->date;
-				$insert_data['type'] = $this->runAccount['type'];
-				if($mail->getAttachments()){
-					foreach($mail->getAttachments() as $k=>$v){
-						$attach_data[]=str_ireplace(public_path(),'',$v->filePath);
-					}
-					$insert_data['attachs'] = serialize($attach_data);
-				}
-				$orderInfo = $this->matchOrder($mail);
-				//if($orderInfo){
-				$insert_data['amazon_order_id'] = array_get($orderInfo,'amazon_order_id','');
-				$insert_data['sku'] = array_get($orderInfo,'order.Sku', NULL);
-				$insert_data['asin'] = array_get($orderInfo,'order.ASIN', NULL);
-				$match_rule = $this->matchUser($insert_data,array_get($orderInfo,'order',array()));
-
-				if(array_get($match_rule,'etype')) $insert_data['etype'] = $match_rule['etype'];
-				if(array_get($match_rule,'remark')) $insert_data['remark'] = $match_rule['remark'];
-				if(array_get($match_rule,'sku')) $insert_data['sku'] = $match_rule['sku'];
-				if(array_get($match_rule,'asin')) $insert_data['asin'] = $match_rule['asin'];
-				if(array_get($match_rule,'mark')) $insert_data['mark'] = $match_rule['mark'];
-				if(array_get($match_rule,'item_no')) $insert_data['item_no'] = $match_rule['item_no'];
-				if(array_get($match_rule,'epoint')) $insert_data['epoint'] = $match_rule['epoint'];
-				$insert_data['user_id'] = $match_rule['user_id'];
-				$insert_data['group_id'] = $match_rule['group_id'];
-				$insert_data['rule_id'] = $match_rule['rule_id'];
-				$insert_data['reply'] = $match_rule['reply_status'];
-				print_r($insert_data);
-				$insert_data= array();
-			}
-		}
-		//测试
-		*/
-        //print_r($this->runAccount['account_email']);
-        $mailsIds = $mailbox->searchMailbox('SINCE "'.$date.'"'); //TO 参数不起作用 没办法，下面循环比较 //TO "'.$this->runAccount['account_email'].'"
+		
+        $mailsIds = $mailbox->searchMailbox('SINCE "'.$date.'"'); 
         if(!$mailsIds) {
             Log::Info(' '.$this->runAccount['account_email'].' Since '.$date.' Mailbox is empty...');
         }else{
 			$mailbox->setServerEncoding('UTF-8');
             foreach($mailsIds as $mailsId){
                 $mail = $mailbox->getMail($mailsId);
-                //切换可能重复简单去除
-                if(date('Y-m-d H:i:s')<'2018-11-15 01:00:00'){
-                    $exists = DB::table('inbox')->where('mail_address', $this->runAccount['email'])->where('date', $mail->date)->where('subject', $mail->subject)->first();
-                    if($exists) continue;
-                }
                 //
                 $exists = DB::table('inbox')->where('mail_address', $this->runAccount['email'])->where('mail_id', $mail->messageId)->first();
                 if(!$exists) {
@@ -157,7 +105,7 @@ class GetEmails extends Command
                         if($mail){
 							$reply_to = current(array_keys($mail->replyTo));
                             $insert_data['mail_address'] = $this->runAccount['email'];
-                            $insert_data['mail_id'] = $mail->messageId;
+                            $insert_data['mail_id'] = ($mail->messageId)?$mail->messageId:$mail->id;
                             $insert_data['from_name'] = $mail->fromName;
                             $insert_data['from_address'] = ($reply_to)?$reply_to:$mail->fromAddress;
                             if($insert_data['from_address']=='invalid_address@.syntax-error.'){
