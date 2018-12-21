@@ -47,7 +47,9 @@ class Kernel extends ConsoleKernel
         // if (!Schema::hasTable('accounts')) return;
 
         // 防止第一次执行 php artisan migrate 时，报找不到表的错误；
-
+		$schedule->call(function (){
+			DB::update('update rsg_products set daily_remain = daily_stock;');
+        })->dailyAt('14:00');
         $accountList = DB::table('accounts')->get(array('id'));
         $i=0;
         foreach($accountList as $account){

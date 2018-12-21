@@ -36,7 +36,7 @@ class PartsListController extends Controller {
         foreach ($rows as $row) {
             $subCodes[] = $row['IDNRK'];
         }
-
+		
         return $subCodes;
     }
 
