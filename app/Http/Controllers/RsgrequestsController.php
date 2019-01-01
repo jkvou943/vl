@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use \DrewM\MailChimp\MailChimp;
 use Illuminate\Http\Request;
 use App\RsgRequest;
 use App\RsgProduct;
@@ -169,6 +169,29 @@ class RsgrequestsController extends Controller
 
         $rule->user_id = intval(Auth::user()->id);
         if ($rule->save()) {
+			$step_to_tags = array(
+				'1'  => 'RSG Join',
+				'2'  => 'RSG Request Reject',
+				'3'  => 'RSG Submit Paypal',
+				'4'  => 'RSG Check Paypal',
+				'5'  => 'RSG Submit Purchase',
+				'6'  => 'RSG Check Purchase',
+				'7'  => 'RSG Submit Review Url',
+				'8'  => 'RSG Check Review Url',
+				'9'  => 'RSG Completed'
+			);
+			$product= RsgProduct::where('id',$rule->product_id)->first()->toArray();
+			$mailchimpData = array(
+				'PROIMG'=>$product['product_img'],'PRONAME'=>$product['product_name'],'PROKEY'=>$product['keyword'],'PROPAGE'=>$product['page'],'PROPOS'=>$product['position']
+			);
+			if($rule->customer_paypal_email) $mailchimpData['PAYPAL'] = $rule->customer_paypal_email;
+			if($rule->transfer_amount) $mailchimpData['FUNDED'] = $rule->transfer_amount.' '.$rule->transfer_currency;
+			if($rule->amazon_order_id) $mailchimpData['ORDERID'] = $rule->amazon_order_id;
+			if($rule->review_url) $mailchimpData['REVIEWURL'] = $rule->review_url;
+			self::mailchimp($rule->customer_email,array_get($step_to_tags,$rule->step),[
+						'email_address' => $rule->customer_email,
+						'status'        => 'subscribed',
+						'merge_fields' => $mailchimpData]);
             $request->session()->flash('success_message','Set Rsg Request Success');
             return redirect('rsgrequests');
         } else {
@@ -176,6 +199,27 @@ class RsgrequestsController extends Controller
             return redirect()->back()->withInput();
         }
     }
+	
+	
+	public function mailchimp($customer_email,$tag,$args){
+		$MailChimp = new MailChimp('9e8b822a95bf623006d7364f880f07b1-us8');
+		$MailChimp->verify_ssl=false;
+		$list_id = '6aaf7d9691';
+		$subscriber_hash = $MailChimp->subscriberHash($customer_email);	
+		$MailChimp->put("lists/$list_id/members/$subscriber_hash", $args);
+		if (!$MailChimp->success()) {
+			die($MailChimp->getLastError());
+		}
+		$MailChimp->post("lists/$list_id/members/$subscriber_hash/tags", [
+			'tags'=>[
+			['name' => $tag,
+			'status' => 'active',]
+			]
+		]);
+		if (!$MailChimp->success()) {
+			die($MailChimp->getLastError());
+		}
+	}
 
 
 }

@@ -192,6 +192,10 @@
 											"order": [
 												[1, "desc"]
 											],// set first column as a default sort by asc
+											"drawCallback": function( oSettings ) {
+												var message = jQuery.parseJSON(oSettings.jqXHR.responseText).cusErrorMessage;
+												if(message) toastr.error(message);
+											}
 										}
 									});
 						
@@ -422,6 +426,10 @@
 											"order": [
 												[1, "desc"]
 											],// set first column as a default sort by asc
+											"drawCallback": function( oSettings ) {
+												var message = jQuery.parseJSON(oSettings.jqXHR.responseText).cusErrorMessage;
+												if(message) toastr.error(message);
+											}
 										}
 									});
 						
@@ -655,6 +663,10 @@
 											"order": [
 												[1, "desc"]
 											],// set first column as a default sort by asc
+											"drawCallback": function( oSettings ) {
+												var message = jQuery.parseJSON(oSettings.jqXHR.responseText).cusErrorMessage;
+												if(message) toastr.error(message);
+											}
 										}
 									});
 						
@@ -888,6 +900,10 @@
 											"order": [
 												[1, "desc"]
 											],// set first column as a default sort by asc
+											"drawCallback": function( oSettings ) {
+												var message = jQuery.parseJSON(oSettings.jqXHR.responseText).cusErrorMessage;
+												if(message) toastr.error(message);
+											}
 										}
 									});
 						
@@ -1142,6 +1158,10 @@
 											"order": [
 												[1, "desc"]
 											],// set first column as a default sort by asc
+											"drawCallback": function( oSettings ) {
+												var message = jQuery.parseJSON(oSettings.jqXHR.responseText).cusErrorMessage;
+												if(message) toastr.error(message);
+											}
 										}
 									});
 						

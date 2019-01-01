@@ -73,7 +73,7 @@ th,td,td>span {
 									</td>
 									<td>
 										
-										<select id="step" name="step" class="form-control input-sm">
+										<select id="step" name="step" class="form-control  form-filter input-sm">
 												<option value="">Select Step</option>
 												<?php 
 												foreach(getStepStatus() as $k=>$v){ 	
