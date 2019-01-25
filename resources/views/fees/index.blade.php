@@ -30,17 +30,8 @@
 						<div class="tab-pane active" id="tab_ads">
 						<div class="table-container">
 							<div class="table-actions-wrapper">
-								<select id="bgbu" class="table-group-action-input form-control input-inline input-small input-sm">
-									<option value="">Select BG && BU</option>
-									<?php 
-									$bg='';
-									foreach($teams as $team){ 	
-										$bg=$team->bg;
-										if($team->bg && $team->bu) echo '<option value="'.$team->bg.'_'.$team->bu.'">'.$team->bg.' - '.$team->bu.'</option>';
-									}?>
-								</select>
 								<input type="text" placeholder="SAPSKU" id="sku" class="table-group-action-input form-control input-inline input-small input-sm" />
-								
+						
 																	
 								<button class="btn btn-sm green table-group-action-submit">
 									<i class="fa fa-check"></i> Change</button>
@@ -57,7 +48,6 @@
 									<th width="15%"> Date </th>
 									<th width="15%"> Account </th>
 									<th width="15%"> Invoice Id </th>
-									<th width="15%"> BGBU </th>
 									<th width="15%"> User </th>
 									<th width="15%"> SKU </th>
 									<th width="15%"> Amount</th>
@@ -100,24 +90,12 @@
 										
 										
 									</td>
-									<td>
-									
-										<select name="bgbu" class="form-control form-filter input-sm">
-										<option value="">BG && BU</option>
-										<option value="-">[Empty]</option>
-										<?php 
-										$bg='';
-										foreach($teams as $team){ 	
-											$bg=$team->bg;
-											if($team->bg && $team->bu) echo '<option value="'.$team->bg.'_'.$team->bu.'">'.$team->bg.' - '.$team->bu.'</option>';
-										}?>
-									</select>
-									
-									</td>
+
 									 <td>
 									
 										<select name="user_id" class="form-control form-filter input-sm">
-										<option value="">Users</option>
+										<option value="">All Users</option>
+										<option value="-">[Empty]</option>
 										@foreach ($users as $user_id=>$user_name)
 												<option value="{{$user_id}}">{{$user_name}}</option>
 											@endforeach
@@ -202,16 +180,14 @@
 									// handle group actionsubmit button click
 									grid.getTableWrapper().on('click', '.table-group-action-submit', function (e) {
 										e.preventDefault();
-										var bgbu = $("#bgbu", grid.getTableWrapper());
 										var sku = $("#sku", grid.getTableWrapper());
-										if ((bgbu.val() != "" && sku.val() != "") && grid.getSelectedRowsCount() > 0) {
+										if ((sku.val() != "") && grid.getSelectedRowsCount() > 0) {
 											grid.setAjaxParam("customActionType", "group_action");
-											grid.setAjaxParam("custombgbu", bgbu.val());
 											grid.setAjaxParam("customsku", sku.val());
 											grid.setAjaxParam("id", grid.getSelectedRows());
 											grid.getDataTable().draw(false);
 											//grid.clearAjaxParams();
-										} else if (bgbu.val() == "" || sku.val() == "") {
+										} else if (sku.val() == "") {
 											App.alert({
 												type: 'danger',
 												icon: 'warning',
@@ -235,7 +211,6 @@
 									grid.setAjaxParam("date_to", $("input[name='date_to']").val());
 									grid.setAjaxParam("invoiceid", $("input[name='invoiceid']").val());
 									grid.setAjaxParam("sellerid", $("select[name='sellerid']").val());
-									grid.setAjaxParam("bgbu", $("select[name='bgbu']").val());
 									grid.setAjaxParam("user_id", $("select[name='user_id']").val());
 									grid.setAjaxParam("sku", $("input[name='sku']").val());
 									grid.getDataTable().ajax.reload(null,false);
@@ -266,15 +241,6 @@
 						<div class="tab-pane" id="tab_deal">
 						<div class="table-container">
 							<div class="table-actions-wrapper">
-								<select id="bgbu" class="table-group-action-input form-control input-inline input-small input-sm">
-									<option value="">Select BG && BU</option>
-									<?php 
-									$bg='';
-									foreach($teams as $team){ 	
-										$bg=$team->bg;
-										if($team->bg && $team->bu) echo '<option value="'.$team->bg.'_'.$team->bu.'">'.$team->bg.' - '.$team->bu.'</option>';
-									}?>
-								</select>
 								<input type="text" placeholder="SAPSKU" id="sku" class="table-group-action-input form-control input-inline input-small input-sm" />
 																	
 								<button class="btn btn-sm green table-group-action-submit">
@@ -292,7 +258,7 @@
 									<th width="15%"> Date </th>
 									<th width="15%"> Account </th>
 									<th width="30%"> Fee Description </th>
-									<th width="10%"> BGBU </th>
+									
 									<th width="10%"> User </th>
 									<th width="10%"> SKU </th>
 									<th width="10%"> Amount</th>
@@ -335,24 +301,12 @@
 										
 										
 									</td>
-									<td>
-									
-										<select name="bgbu" class="form-control form-filter input-sm">
-										<option value="">BG && BU</option>
-										<option value="-">[Empty]</option>
-										<?php 
-										$bg='';
-										foreach($teams as $team){ 	
-											$bg=$team->bg;
-											if($team->bg && $team->bu) echo '<option value="'.$team->bg.'_'.$team->bu.'">'.$team->bg.' - '.$team->bu.'</option>';
-										}?>
-									</select>
-									
-									</td>
+
 									 <td>
 									
 										<select name="user_id" class="form-control form-filter input-sm">
-										<option value="">Users</option>
+										<option value="">All Users</option>
+										<option value="-">[Empty]</option>
 										@foreach ($users as $user_id=>$user_name)
 												<option value="{{$user_id}}">{{$user_name}}</option>
 											@endforeach
@@ -436,16 +390,16 @@
 									// handle group actionsubmit button click
 									grid.getTableWrapper().on('click', '.table-group-action-submit', function (e) {
 										e.preventDefault();
-										var bgbu = $("#bgbu", grid.getTableWrapper());
+									
 										var sku = $("#sku", grid.getTableWrapper());
-										if ((bgbu.val() != "" && sku.val() != "") && grid.getSelectedRowsCount() > 0) {
+										if ((sku.val() != "") && grid.getSelectedRowsCount() > 0) {
 											grid.setAjaxParam("customActionType", "group_action");
-											grid.setAjaxParam("custombgbu", bgbu.val());
+											
 											grid.setAjaxParam("customsku", sku.val());
 											grid.setAjaxParam("id", grid.getSelectedRows());
 											grid.getDataTable().draw(false);
 											//grid.clearAjaxParams();
-										} else if (bgbu.val() == "" || sku.val() == "") {
+										} else if (sku.val() == "") {
 											App.alert({
 												type: 'danger',
 												icon: 'warning',
@@ -469,7 +423,6 @@
 									grid.setAjaxParam("date_to", $("input[name='date_to']").val());
 									grid.setAjaxParam("feedes", $("input[name='feedes']").val());
 									grid.setAjaxParam("sellerid", $("select[name='sellerid']").val());
-									grid.setAjaxParam("bgbu", $("select[name='bgbu']").val());
 									grid.setAjaxParam("user_id", $("select[name='user_id']").val());
 									grid.setAjaxParam("sku", $("input[name='sku']").val());
 									grid.getDataTable().ajax.reload(null,false);
@@ -499,17 +452,21 @@
 						
 						
 						<div class="tab-pane" id="tab_coupon">
+						<div class="table-toolbar">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="btn-group">
+										<a href="{{ url('couponkunnr')}}"><button id="sample_editable_1_2_new" class="btn sbold blue"> Coupon Match Rules
+											<i class="fa fa-plus"></i>
+										</button>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="table-container">
 							<div class="table-actions-wrapper">
-								<select id="bgbu" class="table-group-action-input form-control input-inline input-small input-sm">
-									<option value="">Select BG && BU</option>
-									<?php 
-									$bg='';
-									foreach($teams as $team){ 	
-										$bg=$team->bg;
-										if($team->bg && $team->bu) echo '<option value="'.$team->bg.'_'.$team->bu.'">'.$team->bg.' - '.$team->bu.'</option>';
-									}?>
-								</select>
+								
 								<input type="text" placeholder="SAPSKU" id="sku" class="table-group-action-input form-control input-inline input-small input-sm" />
 								
 																	
@@ -528,7 +485,7 @@
 									<th width="15%"> Date </th>
 									<th width="15%"> Account </th>
 									<th width="30%"> Fee Description </th>
-									<th width="10%"> BGBU </th>
+									
 									<th width="10%"> User </th>
 									<th width="15%"> SKU </th>
 									<th width="10%"> Amount</th>
@@ -571,24 +528,12 @@
 										
 										
 									</td>
-									<td>
 									
-										<select name="bgbu" class="form-control form-filter input-sm">
-										<option value="">BG && BU</option>
-										<option value="-">[Empty]</option>
-										<?php 
-										$bg='';
-										foreach($teams as $team){ 	
-											$bg=$team->bg;
-											if($team->bg && $team->bu) echo '<option value="'.$team->bg.'_'.$team->bu.'">'.$team->bg.' - '.$team->bu.'</option>';
-										}?>
-									</select>
-									
-									</td>
 									 <td>
 									
 										<select name="user_id" class="form-control form-filter input-sm">
-										<option value="">Users</option>
+										<option value="">All Users</option>
+										<option value="-">[Empty]</option>
 										@foreach ($users as $user_id=>$user_name)
 												<option value="{{$user_id}}">{{$user_name}}</option>
 											@endforeach
@@ -673,16 +618,16 @@
 									// handle group actionsubmit button click
 									grid.getTableWrapper().on('click', '.table-group-action-submit', function (e) {
 										e.preventDefault();
-										var bgbu = $("#bgbu", grid.getTableWrapper());
+										
 										var sku = $("#sku", grid.getTableWrapper());
-										if ((bgbu.val() != "" && sku.val() != "") && grid.getSelectedRowsCount() > 0) {
+										if ((sku.val() != "") && grid.getSelectedRowsCount() > 0) {
 											grid.setAjaxParam("customActionType", "group_action");
-											grid.setAjaxParam("custombgbu", bgbu.val());
+										
 											grid.setAjaxParam("customsku", sku.val());
 											grid.setAjaxParam("id", grid.getSelectedRows());
 											grid.getDataTable().draw(false);
 											//grid.clearAjaxParams();
-										} else if (bgbu.val() == "" || sku.val() == "") {
+										} else if (sku.val() == "") {
 											App.alert({
 												type: 'danger',
 												icon: 'warning',
@@ -706,7 +651,6 @@
 									grid.setAjaxParam("date_to", $("input[name='date_to']").val());
 									grid.setAjaxParam("feedes", $("input[name='feedes']").val());
 									grid.setAjaxParam("sellerid", $("select[name='sellerid']").val());
-									grid.setAjaxParam("bgbu", $("select[name='bgbu']").val());
 									grid.setAjaxParam("user_id", $("select[name='user_id']").val());
 									grid.setAjaxParam("sku", $("input[name='sku']").val());
 									grid.getDataTable().ajax.reload(null,false);
@@ -738,15 +682,7 @@
 						<div class="tab-pane" id="tab_servicefee">
 						<div class="table-container">
 							<div class="table-actions-wrapper">
-								<select id="bgbu" class="table-group-action-input form-control input-inline input-small input-sm">
-									<option value="">Select BG && BU</option>
-									<?php 
-									$bg='';
-									foreach($teams as $team){ 	
-										$bg=$team->bg;
-										if($team->bg && $team->bu) echo '<option value="'.$team->bg.'_'.$team->bu.'">'.$team->bg.' - '.$team->bu.'</option>';
-									}?>
-								</select>
+								
 								<input type="text" placeholder="SAPSKU" id="sku" class="table-group-action-input form-control input-inline input-small input-sm" />
 								
 																	
@@ -765,7 +701,7 @@
 									<th width="15%"> Date </th>
 									<th width="15%"> Account </th>
 									<th width="30%"> Fee Description </th>
-									<th width="10%"> BGBU </th>
+									
 									<th width="10%"> User </th>
 									<th width="15%"> SKU </th>
 									<th width="10%"> Amount</th>
@@ -808,24 +744,12 @@
 										
 										
 									</td>
-									<td>
 									
-										<select name="bgbu" class="form-control form-filter input-sm">
-										<option value="">BG && BU</option>
-										<option value="-">[Empty]</option>
-										<?php 
-										$bg='';
-										foreach($teams as $team){ 	
-											$bg=$team->bg;
-											if($team->bg && $team->bu) echo '<option value="'.$team->bg.'_'.$team->bu.'">'.$team->bg.' - '.$team->bu.'</option>';
-										}?>
-									</select>
-									
-									</td>
 									 <td>
 									
 										<select name="user_id" class="form-control form-filter input-sm">
-										<option value="">Users</option>
+										<option value="">All Users</option>
+										<option value="-">[Empty]</option>
 										@foreach ($users as $user_id=>$user_name)
 												<option value="{{$user_id}}">{{$user_name}}</option>
 											@endforeach
@@ -910,16 +834,16 @@
 									// handle group actionsubmit button click
 									grid.getTableWrapper().on('click', '.table-group-action-submit', function (e) {
 										e.preventDefault();
-										var bgbu = $("#bgbu", grid.getTableWrapper());
+									
 										var sku = $("#sku", grid.getTableWrapper());
-										if ((bgbu.val() != "" && sku.val() != "") && grid.getSelectedRowsCount() > 0) {
+										if ((sku.val() != "") && grid.getSelectedRowsCount() > 0) {
 											grid.setAjaxParam("customActionType", "group_action");
-											grid.setAjaxParam("custombgbu", bgbu.val());
+									
 											grid.setAjaxParam("customsku", sku.val());
 											grid.setAjaxParam("id", grid.getSelectedRows());
 											grid.getDataTable().draw(false);
 											//grid.clearAjaxParams();
-										} else if (bgbu.val() == "" || sku.val() == "") {
+										} else if (sku.val() == "") {
 											App.alert({
 												type: 'danger',
 												icon: 'warning',
@@ -943,7 +867,7 @@
 									grid.setAjaxParam("date_to", $("input[name='date_to']").val());
 									grid.setAjaxParam("feedes", $("input[name='feedes']").val());
 									grid.setAjaxParam("sellerid", $("select[name='sellerid']").val());
-									grid.setAjaxParam("bgbu", $("select[name='bgbu']").val());
+								
 									grid.setAjaxParam("user_id", $("select[name='user_id']").val());
 									grid.setAjaxParam("sku", $("input[name='sku']").val());
 									grid.getDataTable().ajax.reload(null,false);
@@ -975,15 +899,7 @@
 						<div class="tab-pane" id="tab_cpcfee">
 						<div class="table-container">
 							<div class="table-actions-wrapper">
-								<select id="bgbu" class="table-group-action-input form-control input-inline input-small input-sm">
-									<option value="">Select BG && BU</option>
-									<?php 
-									$bg='';
-									foreach($teams as $team){ 	
-										$bg=$team->bg;
-										if($team->bg && $team->bu) echo '<option value="'.$team->bg.'_'.$team->bu.'">'.$team->bg.' - '.$team->bu.'</option>';
-									}?>
-								</select>
+								
 								<input type="text" placeholder="SAPSKU" id="sku" class="table-group-action-input form-control input-inline input-small input-sm" />
 								
 																	
@@ -1007,7 +923,7 @@
 									<th width="5%"> Profit </th>
 									<th width="5%"> Orders </th>
 									<th width="5%"> Status </th>
-									<th width="7%"> BGBU </th>
+									
 									<th width="7%"> User </th>
 									<th width="7%"> SKU </th>
 									<th width="7%"> Cost </th>
@@ -1066,24 +982,12 @@
 										<option value="paused">Paused</option>
 									</select>
 									</td>
-									<td>
 									
-										<select name="bgbu" class="form-control form-filter input-sm">
-										<option value="">BG && BU</option>
-										<option value="-">[Empty]</option>
-										<?php 
-										$bg='';
-										foreach($teams as $team){ 	
-											$bg=$team->bg;
-											if($team->bg && $team->bu) echo '<option value="'.$team->bg.'_'.$team->bu.'">'.$team->bg.' - '.$team->bu.'</option>';
-										}?>
-									</select>
-									
-									</td>
 									 <td>
 									
 										<select name="user_id" class="form-control form-filter input-sm">
-										<option value="">Users</option>
+										<option value="">All Users</option>
+										<option value="-">[Empty]</option>
 										@foreach ($users as $user_id=>$user_name)
 												<option value="{{$user_id}}">{{$user_name}}</option>
 											@endforeach
@@ -1168,16 +1072,16 @@
 									// handle group actionsubmit button click
 									grid.getTableWrapper().on('click', '.table-group-action-submit', function (e) {
 										e.preventDefault();
-										var bgbu = $("#bgbu", grid.getTableWrapper());
+										
 										var sku = $("#sku", grid.getTableWrapper());
-										if ((bgbu.val() != "" && sku.val() != "") && grid.getSelectedRowsCount() > 0) {
+										if ((sku.val() != "") && grid.getSelectedRowsCount() > 0) {
 											grid.setAjaxParam("customActionType", "group_action");
-											grid.setAjaxParam("custombgbu", bgbu.val());
+											
 											grid.setAjaxParam("customsku", sku.val());
 											grid.setAjaxParam("id", grid.getSelectedRows());
 											grid.getDataTable().draw(false);
 											//grid.clearAjaxParams();
-										} else if (bgbu.val() == "" || sku.val() == "") {
+										} else if (sku.val() == "") {
 											App.alert({
 												type: 'danger',
 												icon: 'warning',
@@ -1202,7 +1106,7 @@
 									grid.setAjaxParam("feedes1", $("input[name='feedes1']").val());
 									grid.setAjaxParam("feedes2", $("input[name='feedes2']").val());
 									grid.setAjaxParam("sellerid", $("select[name='sellerid']").val());
-									grid.setAjaxParam("bgbu", $("select[name='bgbu']").val());
+								
 									grid.setAjaxParam("user_id", $("select[name='user_id']").val());
 									grid.setAjaxParam("status", $("select[name='status']").val());
 									grid.setAjaxParam("sku", $("input[name='sku']").val());

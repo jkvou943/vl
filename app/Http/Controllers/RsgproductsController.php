@@ -56,7 +56,7 @@ class RsgproductsController extends Controller
         $sort = $request->input('order.0.dir','desc');
         if ($request->input("customActionType") == "group_action") {
 			   $updateDate = [];
-			   $updateDate['status'] = $request->get("customstatus")?1:0;
+			   $updateDate['status'] = $request->get("customstatus")?$request->get("customstatus"):0;
 			   RsgProduct::whereIn('id',$request->input("id"))->update($updateDate);
         }
 		
@@ -92,6 +92,12 @@ class RsgproductsController extends Controller
 		if($request->input('site')){
             $datas = $datas->where('site', $request->input('site'));
         }
+		if($request->input('status')!==NULL){
+            $datas = $datas->where('status', $request->input('status'));
+        }else{
+			$datas = $datas->where('status', '>',-1);
+		}
+
 		$iTotalRecords = $datas->count();
         $iDisplayLength = intval($_REQUEST['length']);
         $iDisplayLength = $iDisplayLength < 0 ? $iTotalRecords : $iDisplayLength;
@@ -105,7 +111,7 @@ class RsgproductsController extends Controller
         $end = $end > $iTotalRecords ? $iTotalRecords : $end;
 		$accounts = $this->getAccounts();
 		$users= $this->getUsers();
-		$status_arr = array(0=>'<span class="badge badge-default">Disabled</a>',1=>'<span class="badge badge-success">Enabled</span>');
+		$status_arr = array('-1'=>'<span class="badge badge-default">Reject</a>',0=>'<span class="badge badge-default">Disabled</a>',1=>'<span class="badge badge-success">Enabled</span>');
 		foreach ( $lists as $list){
             $records["data"][] = array(
                 '<label class="mt-checkbox mt-checkbox-single mt-checkbox-outline"><input name="id[]" type="checkbox" class="checkboxes" value="'.$list['id'].'"/><span></span></label>',

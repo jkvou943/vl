@@ -74,17 +74,14 @@ class FeesController extends Controller
         $sort = $request->input('order.0.dir','desc');
 		$users= $this->getUsers();
 		$error_message='';
-        if ($request->input("custombgbu") && $request->input("customsku") && $request->input("customActionType") == "group_action") {
+        if ($request->input("customsku") && $request->input("customActionType") == "group_action") {
 			   $sap_seller_id =  Auth::user()->sap_seller_id;
 			   $customskus = explode('/',trim($request->input("customsku")));
 			   $exists_skus = Asin::whereIn('item_no',$customskus)->groupBy('item_no')->get(['item_no'])->count();
 
 			   if( $sap_seller_id && $exists_skus == count($customskus)){
 			   	   $updateDate = [];
-				   $bgbu = $request->input('custombgbu');
-				   $bgbu_arr = explode('_',$bgbu);
-				   if(array_get($bgbu_arr,0)) $updateDate['bg'] = array_get($bgbu_arr,0);
-				   if(array_get($bgbu_arr,1)) $updateDate['bu'] = array_get($bgbu_arr,1);
+				   
 				   $updateDate['user_id'] = Auth::user()->id;
 				   $updateDate['sku'] = $request->input("customsku");
 				   DB::connection('order')->table('finances_product_ads_payment_event')->whereIn('id',$request->input("id"))->where('ImportToSap',0)->update($updateDate);
@@ -101,18 +98,9 @@ class FeesController extends Controller
             $datas = $datas->where('SellerId', $request->input('sellerid'));
         }
 		
-		if($request->input('bgbu') ){
-			   $bgbu = $request->input('bgbu');
-			   $bgbu_arr = explode('_',$bgbu);
-			   if(count($bgbu_arr)>1){
-			   	if(array_get($bgbu_arr,0)) $datas = $datas->where('bg',array_get($bgbu_arr,0));
-			   	if(array_get($bgbu_arr,1)) $datas = $datas->where('bu',array_get($bgbu_arr,1));
-			   }else{
-			   		$datas = $datas->whereNull('bg');
-			   }
-		}
+
 		if($request->input('user_id')){
-            $datas = $datas->where('user_id', $request->input('user_id'));
+            $datas = $datas->where('user_id', ($request->input('user_id')=='-')?0:$request->input('user_id'));
         }
 		if($request->input('sku')){
             $datas = $datas->where('sku', $request->input('sku'));
@@ -142,7 +130,7 @@ class FeesController extends Controller
                 $list['PostedDate'],
 				array_get($accounts,$list['SellerId']),
 				$list['InvoiceId'],
-				$list['bg'].' - '.$list['bu'],
+				
 				array_get($users,$list['user_id'],''),
 				$list['sku'],
 				$list['TransactionValue'].' '.$list['Currency'],
@@ -168,17 +156,14 @@ class FeesController extends Controller
         $sort = $request->input('order.0.dir','desc');
 		$users= $this->getUsers();
 		$error_message='';
-        if ($request->input("custombgbu") && $request->input("customsku") && $request->input("customActionType") == "group_action") {
+        if ($request->input("customsku") && $request->input("customActionType") == "group_action") {
 			$sap_seller_id = Auth::user()->sap_seller_id;
 			$customskus = explode('/',trim($request->input("customsku")));
 			   $exists_skus = Asin::whereIn('item_no',$customskus)->groupBy('item_no')->get(['item_no'])->count();
 
 			   if( $sap_seller_id && $exists_skus == count($customskus)){
 			   $updateDate = [];
-               $bgbu = $request->input('custombgbu');
-			   $bgbu_arr = explode('_',$bgbu);
-			   if(array_get($bgbu_arr,0)) $updateDate['bg'] = array_get($bgbu_arr,0);
-			   if(array_get($bgbu_arr,1)) $updateDate['bu'] = array_get($bgbu_arr,1);
+              
 			   $updateDate['user_id'] = Auth::user()->id;
 			   $updateDate['sku'] = trim($request->input("customsku"));
 			    DB::connection('order')->table('finances_deal_event')->whereIn('id',$request->input("id"))->where('ImportToSap',0)->update($updateDate);
@@ -194,19 +179,9 @@ class FeesController extends Controller
         if($request->input('sellerid')){
             $datas = $datas->where('SellerId', $request->input('sellerid'));
         }
-		
-		if($request->input('bgbu')){
-			   $bgbu = $request->input('bgbu');
-			   $bgbu_arr = explode('_',$bgbu);
-			   if(count($bgbu_arr)>1){
-			   	if(array_get($bgbu_arr,0)) $datas = $datas->where('bg',array_get($bgbu_arr,0));
-			   	if(array_get($bgbu_arr,1)) $datas = $datas->where('bu',array_get($bgbu_arr,1));
-			   }else{
-			   		$datas = $datas->whereNull('bg');
-			   }
-		}
+
 		if($request->input('user_id')){
-            $datas = $datas->where('user_id', $request->input('user_id'));
+            $datas = $datas->where('user_id', ($request->input('user_id')=='-')?0:$request->input('user_id'));
         }
 		if($request->input('sku')){
             $datas = $datas->where('sku', $request->input('sku'));
@@ -236,7 +211,7 @@ class FeesController extends Controller
                 $list['PostedDate'],
 				array_get($accounts,$list['SellerId']),
 				$list['DealDescription'],
-				$list['bg'].' - '.$list['bu'],
+				
 				array_get($users,$list['user_id'],''),
 				$list['sku'],
 				$list['TotalAmount'].' '.$list['Currency'],
@@ -261,17 +236,14 @@ class FeesController extends Controller
         $sort = $request->input('order.0.dir','desc');
 		$users= $this->getUsers();
 		$error_message='';
-        if ($request->input("custombgbu") && $request->input("customsku") && $request->input("customActionType") == "group_action") {
+        if ($request->input("customsku") && $request->input("customActionType") == "group_action") {
 			   $sap_seller_id = Auth::user()->sap_seller_id;
 			$customskus = explode('/',trim($request->input("customsku")));
 			   $exists_skus = Asin::whereIn('item_no',$customskus)->groupBy('item_no')->get(['item_no'])->count();
 
 			   if( $sap_seller_id && $exists_skus == count($customskus)){
 				$updateDate = [];
-               $bgbu = $request->input('custombgbu');
-			   $bgbu_arr = explode('_',$bgbu);
-			   if(array_get($bgbu_arr,0)) $updateDate['bg'] = array_get($bgbu_arr,0);
-			   if(array_get($bgbu_arr,1)) $updateDate['bu'] = array_get($bgbu_arr,1);
+              
 			   $updateDate['user_id'] = Auth::user()->id;
 			   $updateDate['sku'] = $request->input("customsku");
 			    DB::connection('order')->table('finances_coupon_event')->whereIn('id',$request->input("id"))->where('ImportToSap',0)->update($updateDate);
@@ -288,18 +260,10 @@ class FeesController extends Controller
             $datas = $datas->where('SellerId', $request->input('sellerid'));
         }
 		
-		if($request->input('bgbu')){
-			   $bgbu = $request->input('bgbu');
-			   $bgbu_arr = explode('_',$bgbu);
-			   if(count($bgbu_arr)>1){
-			   	if(array_get($bgbu_arr,0)) $datas = $datas->where('bg',array_get($bgbu_arr,0));
-			   	if(array_get($bgbu_arr,1)) $datas = $datas->where('bu',array_get($bgbu_arr,1));
-			   }else{
-			   		$datas = $datas->whereNull('bg');
-			   }
-		}
+
 		if($request->input('user_id')){
-            $datas = $datas->where('user_id', $request->input('user_id'));
+		
+            $datas = $datas->where('user_id', ($request->input('user_id')=='-')?0:$request->input('user_id'));
         }
 		if($request->input('sku')){
             $datas = $datas->where('sku', $request->input('sku'));
@@ -329,7 +293,7 @@ class FeesController extends Controller
                 $list['PostedDate'],
 				array_get($accounts,$list['SellerId']),
 				$list['SellerCouponDescription'],
-				$list['bg'].' - '.$list['bu'],
+				
 				array_get($users,$list['user_id'],''),
 				$list['sku'],
 				$list['TotalAmount'].' '.$list['Currency'],
@@ -353,23 +317,20 @@ class FeesController extends Controller
         $sort = $request->input('order.0.dir','desc');
 		$users= $this->getUsers();
 		$error_message='';
-        if ($request->input("custombgbu") && $request->input("customsku") && $request->input("customActionType") == "group_action") {
+        if ($request->input("customsku") && $request->input("customActionType") == "group_action") {
 			$sap_seller_id = Auth::user()->sap_seller_id;
 			$customskus = explode('/',trim($request->input("customsku")));
 			   $exists_skus = Asin::whereIn('item_no',$customskus)->groupBy('item_no')->get(['item_no'])->count();
 
 			   if( $sap_seller_id && $exists_skus == count($customskus)){
 				$updateDate = [];
-               $bgbu = $request->input('custombgbu');
-			   $bgbu_arr = explode('_',$bgbu);
-			   if(array_get($bgbu_arr,0)) $updateDate['bg'] = array_get($bgbu_arr,0);
-			   if(array_get($bgbu_arr,1)) $updateDate['bu'] = array_get($bgbu_arr,1);
+               
 			   $updateDate['user_id'] = Auth::user()->id;
 			   $updateDate['sku'] = $request->input("customsku");
 			    DB::connection('order')->table('finances_servicefee_event')->whereIn('id',$request->input("id"))->where('ImportToSap',0)->update($updateDate);
 			}else{
 			   	   $error_message = 'Your account is not bound to the SAP Seller ID, or the entered SKU is invalid.';
-			   } 
+			} 
         }
 		$date_from=$request->input('date_from')?$request->input('date_from'):date('Y-m-d',strtotime('- 90 days'));
         $date_to=$request->input('date_to')?$request->input('date_to'):date('Y-m-d');
@@ -380,18 +341,9 @@ class FeesController extends Controller
             $datas = $datas->where('SellerId', $request->input('sellerid'));
         }
 		
-		if($request->input('bgbu')){
-			   $bgbu = $request->input('bgbu');
-			   $bgbu_arr = explode('_',$bgbu);
-			   if(count($bgbu_arr)>1){
-			   	if(array_get($bgbu_arr,0)) $datas = $datas->where('bg',array_get($bgbu_arr,0));
-			   	if(array_get($bgbu_arr,1)) $datas = $datas->where('bu',array_get($bgbu_arr,1));
-			   }else{
-			   		$datas = $datas->whereNull('bg');
-			   }
-		}
+		
 		if($request->input('user_id')){
-            $datas = $datas->where('user_id', $request->input('user_id'));
+            $datas = $datas->where('user_id', ($request->input('user_id')=='-')?0:$request->input('user_id'));
         }
 		if($request->input('sku')){
             $datas = $datas->where('sku', $request->input('sku'));
@@ -421,7 +373,7 @@ class FeesController extends Controller
                 $list['PostedDate'],
 				array_get($accounts,$list['SellerId']),
 				$list['Type'],
-				$list['bg'].' - '.$list['bu'],
+				
 				array_get($users,$list['user_id'],''),
 				$list['sku'],
 				$list['Amount'].' '.$list['Currency'],
@@ -439,17 +391,14 @@ class FeesController extends Controller
     {	
 		$users= $this->getUsers();
 		$error_message='';
-        if ($request->input("custombgbu") && $request->input("customsku") && $request->input("customActionType") == "group_action") {
+        if ($request->input("customsku") && $request->input("customActionType") == "group_action") {
 			$sap_seller_id = Auth::user()->sap_seller_id;
 			$customskus = explode('/',trim($request->input("customsku")));
 			   $exists_skus = Asin::whereIn('item_no',$customskus)->groupBy('item_no')->get(['item_no'])->count();
 
 			   if( $sap_seller_id && $exists_skus == count($customskus)){
 				$updateDate = [];
-               $bgbu = $request->input('custombgbu');
-			   $bgbu_arr = explode('_',$bgbu);
-			   if(array_get($bgbu_arr,0)) $updateDate['bg'] = array_get($bgbu_arr,0);
-			   if(array_get($bgbu_arr,1)) $updateDate['bu'] = array_get($bgbu_arr,1);
+               
 			   $updateDate['user_id'] = Auth::user()->id;
 			   $updateDate['sku'] = $request->input("customsku");
 			    DB::table('aws_report')->whereIn('id',$request->input("id"))->where('ImportToSap',0)->update($updateDate);
@@ -466,18 +415,9 @@ class FeesController extends Controller
             $datas = $datas->where('seller_id', $request->input('sellerid'));
         }
 		
-		if($request->input('bgbu')){
-			   $bgbu = $request->input('bgbu');
-			   $bgbu_arr = explode('_',$bgbu);
-			   if(count($bgbu_arr)>1){
-			   	if(array_get($bgbu_arr,0)) $datas = $datas->where('bg',array_get($bgbu_arr,0));
-			   	if(array_get($bgbu_arr,1)) $datas = $datas->where('bu',array_get($bgbu_arr,1));
-			   }else{
-			   		$datas = $datas->where('bg','');
-			   }
-		}
+		
 		if($request->input('user_id')){
-            $datas = $datas->where('user_id', $request->input('user_id'));
+            $datas = $datas->where('user_id', ($request->input('user_id')=='-')?0:$request->input('user_id'));
         }
 		if($request->input('status')){
             $datas = $datas->where('state', $request->input('status'));
@@ -519,7 +459,7 @@ class FeesController extends Controller
 				$list['profit'],
 				$list['orders'],
 				$list['state'],
-				$list['bg'].' - '.$list['bu'],
+				
 				array_get($users,$list['user_id'],''),
 				$list['sku'],
 				$list['cost']

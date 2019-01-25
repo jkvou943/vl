@@ -59,7 +59,7 @@ class TemplateController extends Controller
         foreach($templates as $template){
 			$option = array();
 			$option['id'] = $template->id;
-			$option['label'] = $template->tag.' By '.$users[$template->user_id];
+			$option['label'] = $template->tag.' By '.array_get($users,$template->user_id,$template->user_id);
 			$option['value'] = $template->tag;
 			$option['title'] = $template->title;
 			$option['desc'] = $template->content;

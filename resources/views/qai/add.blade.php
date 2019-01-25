@@ -31,7 +31,7 @@
                             <div class="epoint_selectList form-inline">
 							<select class="epoint_group form-control" name="product_line" required>
 							</select>
-							<select class="epoint_product form-control" name="product" required>							
+							<select class="epoint_product form-control" name="product">							
 							</select>
 							<select class="epoint form-control" name="epoint">
 							</select>
@@ -62,6 +62,9 @@
 										if(typeof(epointJson[n]) == "undefined"){
 											oepoint_product.css("display","none");
 											oepoint.css("display","none");
+										}else if($.isEmptyObject(epointJson[n])){
+											oepoint_product.css("display","none");
+											oepoint.css("display","none");
 										}else{
 											oepoint_product.css("display","inline");
 											$.each(epointJson[n],function(i,epoint_product){
@@ -79,6 +82,8 @@
 									var n = oepoint_product.val();
 							
 										if(typeof(epointJson[m][n]) == "undefined"){
+											oepoint.css("display","none");
+										}else if($.isEmptyObject(epointJson[m][n])){
 											oepoint.css("display","none");
 										}else{
 											oepoint.css("display","inline");
@@ -153,7 +158,7 @@
                         </div>
 						
 						<div class="form-group">
-                            <label>Description</label>
+                            <label>Details</label>
                             <div class="input-group">
                                 @include('UEditor::head')
 
@@ -186,7 +191,7 @@
 						
 						
 						<div class="form-group">
-                            <label>Trouble Shooting</label>
+                            <label>Details （Chinese）</label>
                             <div class="input-group">
                                     <!-- 加载编辑器的容器 -->
                                     <script id="dqe_content" name="dqe_content" type="text/plain">
@@ -214,36 +219,7 @@
                             </div>
                         </div>
 						
-                        <div class="form-group">
-                            <label>Customer Service Solutions/Templates</label>
-                            <div class="input-group">
-                  
-
-                                    <!-- 加载编辑器的容器 -->
-                                    <script id="service_content" name="service_content" type="text/plain">
-									<?php echo old('service_content'); ?>
-									</script>
-                                    <!-- 实例化编辑器 -->
-                                    <script type="text/javascript">
-                                        var ue = UE.getEditor('service_content',{toolbars: [[
-            'fullscreen', 'source', '|', 'undo', 'redo', '|',
-            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-            'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-            'directionalityltr', 'directionalityrtl', 'indent', '|',
-            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-            'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-            'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
-            'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
-            'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-            'print', 'preview', 'searchreplace', 'drafts', 'help'
-        ]]});
-                                        ue.ready(function() {
-                                            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');//此处为支持laravel5 csrf ,根据实际情况修改,目的就是设置 _token 值.
-                                        });
-                               		 </script>
-                            </div>
-                        </div>
+                       
 						
 						<div class="form-group">
                             <label>Status</label>

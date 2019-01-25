@@ -52,5 +52,8 @@
 		"blender": ["food Processor broken","beaker broken","lid fall off","'I' button do not work","'TURBO' button do not work","blender burn out","blender do not work","The blade came off ","Attachment will not lock","Others"],
 		"Robot Vacuum Cleaner": ["Do not work","circle around","can not charge","can not clean","VACUUM GETS STUCK","Others"],
 		"kettle": ["do not work","Leaking water","Get Rusty","Temperature difference","loud noise","Others"]
-	}
+	},
+	"Learning":{},	"Notice":{},"Others":{}
+					
+		
 }

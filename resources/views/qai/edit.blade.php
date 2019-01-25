@@ -34,7 +34,7 @@
 							<select class="epoint_group form-control" name="product_line" required>
 							<option value="{{$qa['product_line']}}">{{$qa['product_line']}}</option>
 							</select>
-							<select class="epoint_product form-control" name="product" required>
+							<select class="epoint_product form-control" name="product">
 							<option value="{{$qa['product']}}">{{$qa['product']}}</option>
 							
 							</select>
@@ -68,6 +68,9 @@
 										if(typeof(epointJson[n]) == "undefined"){
 											oepoint_product.css("display","none");
 											oepoint.css("display","none");
+										}else if($.isEmptyObject(epointJson[n])){
+											oepoint_product.css("display","none");
+											oepoint.css("display","none");
 										}else{
 											oepoint_product.css("display","inline");
 											$.each(epointJson[n],function(i,epoint_product){
@@ -85,6 +88,8 @@
 									var n = oepoint_product.val();
 							
 										if(typeof(epointJson[m][n]) == "undefined"){
+											oepoint.css("display","none");
+										}else if($.isEmptyObject(epointJson[m][n])){
 											oepoint.css("display","none");
 										}else{
 											oepoint.css("display","inline");
@@ -162,15 +167,15 @@
                         </div>
 						
 						<div class="form-group">
-                            <label>Description</label>
+                            <label>Details</label>
                             <div class="input-group">
                                 @include('UEditor::head')
 
-                                    <!-- ¼ÓÔØ±à¼­Æ÷µÄÈİÆ÷ -->
+                                    <!-- åŠ è½½ç¼–è¾‘å™¨çš„å®¹å™¨ -->
                                     <script id="qa_content" name="description" type="text/plain">
 									<?php echo $qa['description']; ?>
 									</script>
-                                    <!-- ÊµÀı»¯±à¼­Æ÷ -->
+                                    <!-- å®ä¾‹åŒ–ç¼–è¾‘å™¨ -->
                                     <script type="text/javascript">
                                         var ue = UE.getEditor('qa_content',{toolbars: [[
             'fullscreen', 'source', '|', 'undo', 'redo', '|',
@@ -186,7 +191,7 @@
             'print', 'preview', 'searchreplace', 'drafts', 'help'
         ]]});
                                         ue.ready(function() {
-                                            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');//´Ë´¦ÎªÖ§³Ölaravel5 csrf ,¸ù¾İÊµ¼ÊÇé¿öĞŞ¸Ä,Ä¿µÄ¾ÍÊÇÉèÖÃ _token Öµ.
+                                            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');//æ­¤å¤„ä¸ºæ”¯æŒlaravel5 csrf ,æ ¹æ®å®é™…æƒ…å†µä¿®æ”¹,ç›®çš„å°±æ˜¯è®¾ç½® _token å€¼.
                                         });
                                		 </script>
                             </div>
@@ -195,13 +200,13 @@
 						
 						
 						<div class="form-group">
-                            <label>Trouble Shooting</label>
+                            <label>Details ï¼ˆChineseï¼‰</label>
                             <div class="input-group">
-                                    <!-- ¼ÓÔØ±à¼­Æ÷µÄÈİÆ÷ -->
+                                    <!-- åŠ è½½ç¼–è¾‘å™¨çš„å®¹å™¨ -->
                                     <script id="dqe_content" name="dqe_content" type="text/plain">
 									<?php echo $qa['dqe_content']; ?>
 									</script>
-                                    <!-- ÊµÀı»¯±à¼­Æ÷ -->
+                                    <!-- å®ä¾‹åŒ–ç¼–è¾‘å™¨ -->
                                     <script type="text/javascript">
                                         var ue = UE.getEditor('dqe_content',{toolbars: [[
             'fullscreen', 'source', '|', 'undo', 'redo', '|',
@@ -217,42 +222,13 @@
             'print', 'preview', 'searchreplace', 'drafts', 'help'
         ]]});
                                         ue.ready(function() {
-                                            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');//´Ë´¦ÎªÖ§³Ölaravel5 csrf ,¸ù¾İÊµ¼ÊÇé¿öĞŞ¸Ä,Ä¿µÄ¾ÍÊÇÉèÖÃ _token Öµ.
+                                            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');//æ­¤å¤„ä¸ºæ”¯æŒlaravel5 csrf ,æ ¹æ®å®é™…æƒ…å†µä¿®æ”¹,ç›®çš„å°±æ˜¯è®¾ç½® _token å€¼.
                                         });
                                		 </script>
                             </div>
                         </div>
 						
-                        <div class="form-group">
-                            <label>Customer Service Solutions/Templates</label>
-                            <div class="input-group">
-                  
-
-                                    <!-- ¼ÓÔØ±à¼­Æ÷µÄÈİÆ÷ -->
-                                    <script id="service_content" name="service_content" type="text/plain">
-									<?php echo $qa['service_content']; ?>
-									</script>
-                                    <!-- ÊµÀı»¯±à¼­Æ÷ -->
-                                    <script type="text/javascript">
-                                        var ue = UE.getEditor('service_content',{toolbars: [[
-            'fullscreen', 'source', '|', 'undo', 'redo', '|',
-            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-            'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-            'directionalityltr', 'directionalityrtl', 'indent', '|',
-            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-            'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-            'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
-            'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
-            'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-            'print', 'preview', 'searchreplace', 'drafts', 'help'
-        ]]});
-                                        ue.ready(function() {
-                                            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');//´Ë´¦ÎªÖ§³Ölaravel5 csrf ,¸ù¾İÊµ¼ÊÇé¿öĞŞ¸Ä,Ä¿µÄ¾ÍÊÇÉèÖÃ _token Öµ.
-                                        });
-                               		 </script>
-                            </div>
-                        </div>
+                        
 						
 						<div class="form-group">
                             <label>Status</label>

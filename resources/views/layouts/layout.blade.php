@@ -502,6 +502,13 @@
                             <?php if($action=='autoprice') echo '<span class="selected"></span>';?>
                         </a>
                     </li>
+					<li class="nav-item <?php if($action=='salesp') echo 'active';?>">
+                        <a href="{{ url('salesp') }}" class="nav-link nav-toggle">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="title">Sales Prediction</span>
+                            <?php if($action=='salesp') echo '<span class="selected"></span>';?>
+                        </a>
+                    </li>
 					
 					<li class="nav-item <?php if($action=='rsgproducts') echo 'active';?>">
                         <a href="{{ url('rsgproducts') }}" class="nav-link nav-toggle">

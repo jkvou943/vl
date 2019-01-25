@@ -134,6 +134,11 @@ th,td,td>span {
                                 </td>
 								<td>
 
+                                    <input type="text" class="form-control form-filter input-sm" name="seller">
+		
+                                </td>
+								<td>
+
                                     <input type="text" class="form-control form-filter input-sm" name="bg">
 		
                                 </td>
@@ -142,11 +147,7 @@ th,td,td>span {
                                     <input type="text" class="form-control form-filter input-sm" name="bu">
 		
                                 </td>
-								<td>
-
-                                    <input type="text" class="form-control form-filter input-sm" name="seller">
-		
-                                </td>
+								
                                 <td>
    
                                     <select class="form-control form-filter input-sm" name="group_id">

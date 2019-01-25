@@ -46,6 +46,7 @@ th,td,td>span {
 									<option value="">Select Status</option>
 									<option value="0">Disabled</option>
 									<option value="1">Enabled</option>
+									<option value="-1">Reject</option>
 								</select>
 								
 												
@@ -133,10 +134,11 @@ th,td,td>span {
 									
 									</td>
 									<td>
-									<select id="status" class="form-control form-filter input-sm">
+									<select id="status"  name="status" class="form-control form-filter input-sm">
 										<option value="">Select Status</option>
 										<option value="0">Disabled</option>
 										<option value="1">Enabled</option>
+										<option value="-1">Reject</option>
 									</select>
 									</td>
 	

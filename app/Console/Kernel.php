@@ -31,7 +31,9 @@ class Kernel extends ConsoleKernel
 		'App\Console\Commands\GetAds',
 		'App\Console\Commands\GetProfits',
         'App\Console\Commands\GetSettlementReport',
-        'App\Console\Commands\GetAwsInfo'
+        'App\Console\Commands\GetAwsInfo',
+		'App\Console\Commands\GetSales28day',
+		'App\Console\Commands\GetShoudafang'
     ];
 
     /**
@@ -63,6 +65,7 @@ class Kernel extends ConsoleKernel
 		$schedule->command('get:review 7days')->cron('0 */4 * * *')->name('getreviews')->withoutOverlapping();
 		$schedule->command('get:star 7days')->twiceDaily(20, 22)->name('getstars')->withoutOverlapping();
 		$schedule->command('get:asin 3 0')->hourly()->name('getasins')->withoutOverlapping();
+		$schedule->command('get:kunnr 3 0')->hourly()->name('getkunnrs')->withoutOverlapping();
 		$schedule->command('get:sellers')->cron('*/1 * * * *')->name('sendmails')->withoutOverlapping();
 		$schedule->command('get:asininfo')->cron('30 0 * * *')->name('getasininfo')->withoutOverlapping();
 		$schedule->command('get:ads 10 1')->cron('5 0 * * *')->name('getads')->withoutOverlapping();
@@ -70,6 +73,7 @@ class Kernel extends ConsoleKernel
         //$schedule->command('scan:warn')->hourly()->name('warningcheck')->withoutOverlapping();
         //$schedule->command('scan:auto')->hourly()->name('autocheck')->withoutOverlapping();
         $schedule->command('get:awsinfo')->dailyAt('23:00')->name('getawsinfo')->withoutOverlapping();
+		$schedule->command('get:dailysales 7')->dailyAt('9:00')->name('getdailysales')->withoutOverlapping();
     }
 
     /**

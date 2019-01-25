@@ -44,6 +44,8 @@
                     <div role="tabpanel" class="tab-pane" id="ctg-info">
                         <form class="row">
                             <div class="col-md-8">
+								<div class="font-dark">Date</div>
+                                <pre>{!! $ctgRow['created_at'] !!}</pre>
                                 <div class="font-dark">Gift SKU</div>
                                 <pre>{!! $ctgRow['gift_sku'] !!}</pre>
                                 <div class="font-dark">Order ID</div>
@@ -422,7 +424,8 @@
                 },
                 toolbarSettings: {
                     toolbarExtraButtons: [
-                        $('<button class="btn blue" style="width:9em" type="submit">Save</button>')
+                        $('<button class="btn blue" style="width:9em" type="submit">Save</button>'),
+						$('<a href="/send/create?from_address=support@claimthegift.com&to_address={!!$ctgRow['email']!!}&subject=Claim the gift" target="_blank"><button class="btn green" style="width:9em" type="button">Compose</button></a>')
                     ]
                 }
             })

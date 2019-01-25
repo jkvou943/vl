@@ -173,10 +173,20 @@ class QaiController extends Controller
 				$customersList[$i]['epoint'],
 				$customersList[$i]['title'],
                 
-                $users[$customersList[$i]['user_id']],
+                array_get($users,$customersList[$i]['user_id']),
 				$customersList[$i]['confirm']?'<span class="label label-sm label-primary">Confirmed</span>':'<span class="label label-sm label-danger">Un Confirm</span>',
                 $customersList[$i]['updated_at'],
-                '<a href="/qa/'.$customersList[$i]['id'].'/edit" class="btn btn-sm btn-outline grey-salsa" target="_blank"><i class="fa fa-search"></i> Edit </a> <a href="/question/'.$customersList[$i]['id'].'" class="btn btn-sm btn-outline grey-salsa" target="_blank"><i class="fa fa-search"></i> View </a>',
+				'<a href="'.url('qa/'.$customersList[$i]['id'].'/edit').'" target="_blank">
+					<button type="button" class="btn btn-success btn-xs">Edit</button>
+				</a>
+				<a href="'.url('question/'.$customersList[$i]['id']).'" target="_blank">
+					<button type="button" class="btn btn- btn-xs">View</button>
+				</a>
+				<form action="'.url('qa/'.$customersList[$i]['id']).'" method="POST" style="display: inline;">
+					'.method_field('DELETE').'
+					'.csrf_field().'
+					<button type="submit" class="btn btn-danger btn-xs">Delete</button>
+				</form>',
             );
         }
 
@@ -195,7 +205,6 @@ class QaiController extends Controller
         //if(!Auth::user()->admin) die();
 		
         $this->validate($request, [
-            'product' => 'required|string',
             'model' => 'required|string',
 			'product_line' => 'required|string',
             'item_no' => 'required|string',
@@ -254,7 +263,6 @@ class QaiController extends Controller
         //if(!Auth::user()->admin) die();
 
         $this->validate($request, [
-           'product' => 'required|string',
             'model' => 'required|string',
 			'product_line' => 'required|string',
             'item_no' => 'required|string',

@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Services\MultipleQueue;
 use DB;
+use PayPal\PayPalAPI\TransactionSearchReq;
+use PayPal\PayPalAPI\TransactionSearchRequestType;
+use PayPal\Service\PayPalAPIInterfaceServiceService;
 class RsgrequestsController extends Controller
 {
     /**
@@ -48,6 +51,7 @@ class RsgrequestsController extends Controller
 		$orderby = 'updated_at';
         $sort = $request->input('order.0.dir','desc');
         if ($request->input("customActionType") == "group_action") {
+			   if(!Auth::user()->admin) die('Permission denied');
 			   $updateDate = [];
 			   $updateDate['step'] = $request->input("customstatus");
 			   RsgRequest::whereIn('id',$request->input("id"))->update($updateDate);
@@ -108,7 +112,7 @@ class RsgrequestsController extends Controller
 				$list['customer_paypal_email'],
                 $list['transfer_amount'].' '.$list['transfer_currency'],
 				$list['amazon_order_id'],
-				$list['review_url'],
+				$list['review_url'].'<BR><span class="text-danger">'.$list['transaction_id'].'</span>',
 				$list['updated_at'],
 				'<a data-target="#ajax" data-toggle="modal" href="'.url('rsgrequests/'.$list['id'].'/edit').'" class="badge badge-success"> View </a>'
 				
@@ -146,13 +150,14 @@ class RsgrequestsController extends Controller
             $request->session()->flash('error_message','Rsg Product not Exists');
             return redirect('rsgrequests');
         }
+		if(array_get($rule,'customer_paypal_email')) $rule['trans']=self::getTrans(array_get($rule,'customer_paypal_email'));
 		$product= RsgProduct::where('id',$rule['product_id'])->first()->toArray();
         return view('rsgrequests/edit',['rule'=>$rule,'product'=>$product]);
     }
 
     public function update(Request $request,$id)
     {
-
+		if(!Auth::user()->admin) die('Permission denied');
         $this->validate($request, [
 			'step' => 'required|int',
         ]);
@@ -194,7 +199,7 @@ class RsgrequestsController extends Controller
 						'merge_fields' => $mailchimpData]);
             $request->session()->flash('success_message','Set Rsg Request Success');
             return redirect('rsgrequests');
-        } else {
+        }else{
             $request->session()->flash('error_message','Set Rsg Request Failed');
             return redirect()->back()->withInput();
         }
@@ -219,6 +224,28 @@ class RsgrequestsController extends Controller
 		if (!$MailChimp->success()) {
 			die($MailChimp->getLastError());
 		}
+	}
+	
+	public function getTrans($customer_paypal_email){
+		$transactionSearchRequest = new TransactionSearchRequestType();
+		$transactionSearchRequest->StartDate='2018-01-01T00:00:00Z';
+		$transactionSearchRequest->EndDate=date('Y-m-d\TH:i:s\Z');
+		$transactionSearchRequest->Payer=$customer_paypal_email;
+		$tranSearchReq = new TransactionSearchReq();
+		$tranSearchReq->TransactionSearchRequest = $transactionSearchRequest;
+		$config = array(
+			"acct1.UserName" => "wangxuesong_api1.valuelinkcorp.com",
+			"acct1.Password" => "SEGA6WHYNA59AHL6",
+			"acct1.Signature" => "A--8MSCLabuvN8L.-MHjxC9uypBtAM4rESWthVxFB22kZUlViNTRaI4p",
+			"mode" => "live",
+			'log.LogEnabled' => false,
+			'log.FileName' => '../PayPal.log',
+			'log.LogLevel' => 'FINE'
+		);
+		$paypalService = new PayPalAPIInterfaceServiceService($config);
+		$transactionSearchResponse = $paypalService->TransactionSearch($tranSearchReq);
+		$transactionSearchResponse = json_decode(json_encode($transactionSearchResponse), true);
+		return array_get($transactionSearchResponse,'PaymentTransactions',[]);
 	}
 
 

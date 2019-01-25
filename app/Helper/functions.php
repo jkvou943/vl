@@ -372,6 +372,19 @@ function getSapSiteCode(){
 	);
 }
 
+function getSapFactoryCode(){
+	return array(
+		'1007'  => 'US01',
+		'1008'  => 'CA01',
+		'1009'  => 'GR01',
+		'1010'  => 'FR01',
+		'1011'  => 'IT01',
+		'1012'  => 'ES01',
+		'1013'  => 'UK01',
+		'1014'  => 'JP01'
+	);
+}
+
 function getStepStatus(){
 	return array(
 		'1'  => 'Check Customer',
@@ -383,5 +396,29 @@ function getStepStatus(){
 		'7'  => 'Submit Review',
 		'8'  => 'Check Review',
 		'9'  => 'Completed'
+	);
+}
+
+function matchSapSiteCode(){
+	return array(
+		'US'  => '1007',
+		'UK'  => '1013',
+		'DE'  => '1009',
+		'FR'  => '1010',
+		'IT'  => '1011',
+		'ES'  => '1012',
+		'JP'  => '1014'
+	);
+}
+
+function matchMarketplaceSiteCode(){
+	return array(
+		'ATVPDKIKX0DER'  => '1007',
+		'A1F83G8C2ARO7P'  => '1013',
+		'A1PA6795UKMFR9'  => '1009',
+		'A13V1IB3VIYZZH'  => '1010',
+		'APJ6JRA9NG5V4'  => '1011',
+		'A1RKKUPIHCS9HS'  => '1012',
+		'A1VC38T7YXB528'  => '1014'
 	);
 }

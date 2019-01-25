@@ -40,7 +40,7 @@ class SendController extends Controller
         return view('send/index',['users'=>$this->getUsers()]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
 		$accounts = Accounts::get()->toArray();
         $accounts_array = $type_array =  array();
@@ -48,8 +48,7 @@ class SendController extends Controller
             $accounts_array[$account['id']] = $account['account_email'];
 			$type_array[$account['account_email']] = $account['type'];
         }
-		
-        return view('send/add',['accounts'=>$accounts_array,'accounts_type'=>$type_array]);
+        return view('send/add',['accounts'=>$accounts_array,'request'=>$request,'accounts_type'=>$type_array]);
     }
 
     public function getAccounts(){

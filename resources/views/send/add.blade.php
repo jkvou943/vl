@@ -146,7 +146,7 @@
                                 </span>
                                 <select name="from_address" id="from_address" class="btn btn-default">
                                     @foreach ($accounts as $account_id=>$account_email)
-                                        <option value="{{$account_email}}">{{$account_email}}</option>
+                                        <option value="{{$account_email}}" <?php if($request->get('from_address')==$account_email) echo 'selected';?>>{{$account_email}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -158,7 +158,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-bookmark"></i>
                                 </span>
-                                <input type="mail" class="form-control" name="to_address" id="to_address" value="" >
+                                <input type="mail" class="form-control" name="to_address" id="to_address" value="<?php echo $request->get('to_address');?>" >
                             </div>
                         </div>
 						<div class="form-group">
@@ -177,7 +177,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-bookmark"></i>
                                 </span>
-                                <input type="text" class="form-control" name="subject" id="subject" value="" >
+                                <input type="text" class="form-control" name="subject" id="subject" value="<?php echo $request->get('subject');?>" >
                             </div>
                         </div>
 						

@@ -117,18 +117,15 @@ License: You must have a valid license purchased only from themeforest(the above
 											 
                                             {!!$qa->description!!}
                                         </div>
-                                        <div class="blog-comments" style="margin-top:50px;">
-											<h3 class="sbold blog-comments-title">Customer Service Solutions/Templates:</h3>
-                                            {!!$qa->service_content!!}
-                                        </div>
+                                        
 										
 										<div class="blog-comments" style="margin-top:50px;">
-											<h3 class="sbold blog-comments-title">Trouble Shooting:</h3>
+											<h3 class="sbold blog-comments-title">Details （Chinese）:</h3>
                                             {!!$qa->dqe_content!!}
                                         </div>
 										<?php if($qa->confirm!=1){?>
                                         <div class="blog-comments">
-                                            <h3 class="sbold blog-comments-title">Update Trouble Shooting:</h3>
+                                            <h3 class="sbold blog-comments-title">Update Details:</h3>
 											<form role="form" action="{{ url('question/'.$qa['id']) }}" method="POST">
                     {{ csrf_field() }}
 					{{ method_field('PUT') }}

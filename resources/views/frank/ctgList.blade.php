@@ -11,6 +11,14 @@
         .form-control {
             height: 29px;
         }
+		.dataTables_extended_wrapper .table.dataTable {
+  margin: 0px !important;
+}
+
+
+th,td,td>span {
+    font-size:12px !important;
+	font-family:Arial, Helvetica, sans-serif;}
     </style>
 
     @include('frank.common')
@@ -210,7 +218,10 @@
             search: {search: queryStringToObject().value},
             serverSide: true,
             scrollX: 2000,
-            fixedColumns: {leftColumns: 1},
+            fixedColumns:   {
+						leftColumns:3,
+						rightColumns: 2
+					},
             pagingType: 'bootstrap_extended',
             processing: true,
             order: [[1, 'desc']],
@@ -238,7 +249,7 @@
                 {data: 'email', name: 'email'},
                 {data: 'name', name: 'name'},
                 {data: 'itemCodes', name: 'itemCodes'},
-                {data: 'itemNames', name: 'itemNames', width: "520px"},
+                {data: 'itemNames', name: 'itemNames', width: "200px"},
                 {
                     data: 'asins',
                     name: 'asins',
@@ -280,7 +291,7 @@
                     }
                 },
                 {
-                    width: "190px",
+                    width: "100px",
                     data: 'status',
                     name: 'status'
                 },

@@ -29,6 +29,7 @@ th,td,td>span {
                 <div class="portlet-body">
 
                     <div class="table-container">
+							<?php if(Auth::user()->admin) { ?>
 							<div class="table-actions-wrapper">
 								<select id="customstatus" class="table-group-action-input form-control input-inline input-small input-sm">
 									<option value="">Select Step</option>
@@ -42,6 +43,7 @@ th,td,td>span {
 								<button class="btn btn-sm green table-group-action-submit">
 									<i class="fa fa-check"></i> Update</button>
 							</div>
+							<?php } ?>
 							<table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_rsg_requests">
 								<thead>
 								<tr role="row" class="heading">
